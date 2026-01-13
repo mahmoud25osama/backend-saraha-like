@@ -1,11 +1,14 @@
-import { connect } from 'mongoose'
+import mongoose from 'mongoose'
 
-export const dbConn = () => {
-    connect(process.env.MONGODB_URI || '')
-        .then(() => {
-            console.log(`MongoDB Connected Successfully.`)
-        })
-        .catch((error) => {
-            console.error('Error connecting to MongooseDB:', error)
-        })
+let isConnected = false
+
+export const dbConn = async () => {
+    if (isConnected) return
+
+    await mongoose.connect(process.env.MONGODB_URI || '', {
+        dbName: 'saraha-like',
+    })
+
+    isConnected = true
+    console.log('MongoDB Connected Successfully.')
 }

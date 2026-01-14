@@ -7,7 +7,7 @@ import messageRoutes from '../modules/message/message.routes'
 import userRoutes from '../modules/user/user.routes'
 import { AppError } from '../utils/AppError'
 import { errorHandle } from '../middleware/errorHandle'
-import ServerlessHttp from 'serverless-http'
+// import ServerlessHttp from 'serverless-http'
 import { dbConn } from '../database/dbConnection'
 
 // Load environment variables
@@ -41,4 +41,8 @@ app.all(/.*/, (req, res, next) => {
 // Error handling middleware
 app.use(errorHandle)
 // Start the server
-export const handler = ServerlessHttp(app)
+// export const handler = ServerlessHttp(app)
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})

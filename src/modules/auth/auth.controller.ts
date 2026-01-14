@@ -96,8 +96,8 @@ export const getMe = catchError(
 export const logout = (req: Request, res: Response) => {
     res.clearCookie('token', {
         httpOnly: true,
+        secure: true,
         sameSite: 'none',
-        secure: process.env.NODE_ENV === 'production',
     })
     res.sendStatus(200)
 }

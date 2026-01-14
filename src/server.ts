@@ -41,9 +41,11 @@ app.all(/.*/, (req, res, next) => {
 // Error handling middleware
 app.use(errorHandle)
 // Start the server for local development
-const PORT = process.env.PORT || 5000
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 5000
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`)
+    })
+}
 // start for vercel
 export default app

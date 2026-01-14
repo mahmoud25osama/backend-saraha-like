@@ -20,7 +20,7 @@ dbConn()
 // Enable CORS
 app.use(
     cors({
-        origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+        origin: process.env.FRONTEND_URL,
         credentials: true,
     })
 )
@@ -29,9 +29,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Routes
-app.use('/api/auth', authRoutes)
-app.use('/api/messages', messageRoutes)
-app.use('/api/users', userRoutes)
+app.use('/auth', authRoutes)
+app.use('/messages', messageRoutes)
+app.use('/users', userRoutes)
 
 //unhandled routes
 app.all(/.*/, (req, res, next) => {

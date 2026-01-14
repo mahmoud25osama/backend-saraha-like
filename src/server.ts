@@ -13,7 +13,7 @@ import { dbConn } from './database/dbConnection'
 // Load environment variables
 dotenv.config()
 // Initialize Express app
-export const app = express()
+const app = express()
 
 // Connect to database
 dbConn()
@@ -40,9 +40,10 @@ app.all(/.*/, (req, res, next) => {
 })
 // Error handling middleware
 app.use(errorHandle)
-// Start the server
-// export const handler = ServerlessHttp(app)
+// Start the server for local development
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
+// start for vercel
+export default app

@@ -12,7 +12,7 @@ const generateToken = (id: string) => {
 
 const sendToken = (res: Response, userId: string) => {
     const token = generateToken(userId)
-
+    console.log('set sameSite to none')
     res.cookie('token', token, {
         httpOnly: true,
         secure: true,

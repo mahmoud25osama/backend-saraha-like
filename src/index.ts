@@ -19,14 +19,10 @@ const app = express()
 dbConn()
 // Middlewares
 // Enable CORS
-const allowedOrigins: string[] = [
-    process.env.FRONTEND_URL,
-    'http://localhost:3000',
-].filter((url): url is string => typeof url === 'string')
 
 app.use(
     cors({
-        origin: allowedOrigins,
+        origin: process.env.FRONTEND_URL,
         credentials: true,
     })
 )

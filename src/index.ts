@@ -22,7 +22,8 @@ dbConn()
 
 const allowedOrigins = [
     process.env.FRONTEND_URL, // production frontend
-    'http://localhost:3000', // local dev
+    'http://localhost:3000',
+    'https://saraha-like-l46rgfscw-mahmou-osamas-projects.vercel.app', // local dev
 ].filter((url): url is string => typeof url === 'string')
 
 app.use(

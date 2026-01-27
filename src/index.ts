@@ -20,12 +20,24 @@ dbConn()
 // Middlewares
 // Enable CORS
 
+const allowedOrigins = [
+    process.env.FRONTEND_URL, // production frontend
+    'http://localhost:3000', // local dev
+].filter((url): url is string => typeof url === 'string')
+
 app.use(
     cors({
-        origin: process.env.FRONTEND_URL,
+        origin: (origin, callback) => {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true)
+            } else {
+                callback(new Error(`CORS blocked: ${origin}`))
+            }
+        },
         credentials: true,
     })
 )
+
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

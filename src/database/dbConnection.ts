@@ -8,46 +8,26 @@ if (!MONGODB_URI) {
     )
 }
 
-let cached = (global as any).mongoose
-
-if (!cached) {
-    cached = (global as any).mongoose = { conn: null, promise: null }
-}
-
 async function dbConn() {
-    if (cached.conn) {
-        console.log('👌 Using existing MongoDB connection')
-        return cached.conn
+    const opts = {
+        bufferCommands: false,
+        serverSelectionTimeoutMS: 5000,
+        maxPoolSize: 10,
+        minPoolSize: 2,
     }
 
-    if (!cached.promise) {
-        const opts = {
-            bufferCommands: false,
-            serverSelectionTimeoutMS: 5000,
-            maxPoolSize: 10,
-            minPoolSize: 2,
-        }
+    let conn = mongoose
+        .connect(MONGODB_URI!, opts)
+        .then((mongoose) => {
+            console.log('🔥 New MongoDB connection established')
+            return mongoose
+        })
+        .catch((err) => {
+            console.error('❌ MongoDB connection error:', err)
+            throw err
+        })
 
-        cached.promise = mongoose
-            .connect(MONGODB_URI!, opts)
-            .then((mongoose) => {
-                console.log('🔥 New MongoDB connection established')
-                return mongoose
-            })
-            .catch((err) => {
-                cached.promise = null
-                throw err
-            })
-    }
-
-    try {
-        cached.conn = await cached.promise
-    } catch (e) {
-        cached.promise = null
-        throw e
-    }
-
-    return cached.conn
+    return conn
 }
 
 export { dbConn }

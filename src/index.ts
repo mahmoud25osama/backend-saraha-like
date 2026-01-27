@@ -2,13 +2,13 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
-import authRoutes from '../src/modules/auth/auth.routes'
-import messageRoutes from '../src/modules/message/message.routes'
-import userRoutes from '../src/modules/user/user.routes'
-import { AppError } from '../src/utils/AppError'
-import { errorHandle } from '../src/middleware/errorHandle'
+import authRoutes from './modules/auth/auth.routes'
+import messageRoutes from './modules/message/message.routes'
+import userRoutes from './modules/user/user.routes'
+import { AppError } from './utils/AppError'
+import { errorHandle } from './middleware/errorHandle'
 // import ServerlessHttp from 'serverless-http'
-import { dbConn } from '../src/database/dbConnection'
+import { dbConn } from './database/dbConnection'
 
 // Load environment variables
 dotenv.config()
@@ -45,12 +45,8 @@ app.all(/.*/, (req, res, next) => {
 })
 // Error handling middleware
 app.use(errorHandle)
-// Start the server for local development
-if (process.env.NODE_ENV !== 'production') {
-    const PORT = process.env.PORT || 5000
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`)
-    })
-}
-// start for vercel
-export default app
+// Start the server
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
